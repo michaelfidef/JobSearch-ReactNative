@@ -1,13 +1,12 @@
-import { useState } from 'react'
+import { useState } from 'react';
 import { 
   View, Text, TouchableOpacity, FlatList, ActivityIndicator
-} from 'react-native'
+} from 'react-native';
 
 import { useRouter } from 'expo-router'
 import styles from './popularjobs.style'
 import { COLORS, SIZES } from '../../../constants';
 import PopularJobCard from '../../common/cards/popular/PopularJobCard';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import useFetch from '../../../hook/useFetch';
 
 const Popularjobs = () => {
@@ -15,16 +14,20 @@ const Popularjobs = () => {
   const {data, isLoading, error} = useFetch(
     'estimated-salary', {
       job_title: 'js developer',
-      location: 'new-york, ny, usa',
+      location: 'indonesia',
       radius: '100' 
     })
 
-    console.log("API Data in Popularjobs:", data);
+    const{selectedJob} = useState(null);
+
+    const handlerCardPress = (item) => {
+      router.push(item.publisher_link)
+    };
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-      <Text style={styles.headerTitle}>Popularjobs</Text>
+      <Text style={styles.headerTitle}>Popular jobs</Text>
       <TouchableOpacity>
         <Text style={styles.headerBtn}>Show all</Text>
       </TouchableOpacity>
@@ -40,6 +43,8 @@ const Popularjobs = () => {
           renderItem={({ item }) => (
             <PopularJobCard 
             item = {item}
+            selectedJob={selectedJob}
+            handlerCardPress={handlerCardPress}
             />
           )}
           keyExtractor={(item, index) => `${item.publisher_name}-${index}`}

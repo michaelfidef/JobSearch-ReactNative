@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   publisher: (selectedJob) => ({
-    fontSize: SIZES.medium - 2,
+    fontSize: SIZES.medium - 1,
     fontFamily: FONT.bold,
     color: selectedJob === item.job_id ? COLORS.white : COLORS.primary,
   }),
@@ -54,6 +54,11 @@ const styles = StyleSheet.create({
     fontFamily: FONT.regular,
     color: "#B3AEC6",
   },
+    salary: {
+      fontSize: SIZES.medium,
+      fontFamily: FONT.bold,
+      color: COLORS.lightWhite,
+    },
 });
 
 export default styles;
