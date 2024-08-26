@@ -12,16 +12,17 @@ import useFetch from '../../../hook/useFetch';
 const Popularjobs = () => {
   const router = useRouter();
   const {data, isLoading, error} = useFetch(
-    'estimated-salary', {
-      job_title: 'js developer',
-      location: 'indonesia',
-      radius: '100' 
+    'search', {
+      query: 'js developer in Jakarta,Indonesia',
+    page: '1',
+    num_pages: '1',
+    date_posted: 'week'
     })
 
     const{selectedJob} = useState(null);
 
     const handlerCardPress = (item) => {
-      router.push(item.publisher_link)
+      router.push(item.job_apply_link)
     };
 
   return (
@@ -47,7 +48,7 @@ const Popularjobs = () => {
             handlerCardPress={handlerCardPress}
             />
           )}
-          keyExtractor={(item, index) => `${item.publisher_name}-${index}`}
+          keyExtractor={(item) => item?.job_id}
           contentContainerStyle={{columnGap: SIZES.medium}}
           horizontal
             />

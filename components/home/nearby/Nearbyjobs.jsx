@@ -11,10 +11,11 @@ import useFetch from '../../../hook/useFetch';
 const Nearbyjobs = () => {
   const router = useRouter();
   const {data, isLoading, error} = useFetch(
-    'estimated-salary', {
-      job_title: 'Developer',
-      location: 'all',
-      radius: '100' 
+    'search', {
+      query: 'js developer in Jakarta,Indonesia',
+    page: '1',
+    num_pages: '1',
+    date_posted: 'week'
     })
 
   return (
@@ -34,8 +35,8 @@ const Nearbyjobs = () => {
           data?.map((job) => (
             <NearbyJobCard
             job={job}
-            key={job?.median_salary}
-            handlerNavigation={() => router.push('/job-detail/$job.median_salary')}
+            key={`nearby-job-${job?.job_id}`}
+            handlerNavigation={() => router.push(`/job-details/${job.job_id}`)}
             />
           ))
         )}

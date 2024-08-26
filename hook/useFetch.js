@@ -10,7 +10,7 @@ const useFetch = (endpoint, query) => {
         method: 'GET',
         url: `https://jsearch.p.rapidapi.com/${endpoint}`,
         headers: {
-          'x-rapidapi-key': '78b870a53emsh16d0a6041dd8001p1d8817jsnbfd0892b7205',
+          'x-rapidapi-key': 'd2159e15f1msh9c3de54fb02c11ep145702jsnf761e6c0e27f',
           'x-rapidapi-host': 'jsearch.p.rapidapi.com'
         },
         params: { ...query }
@@ -21,12 +21,11 @@ const useFetch = (endpoint, query) => {
 
         try {
             const response = await axios.request(options);
-
             console.log("API Response:", response.data);
             setData(response.data.data);
             setIsLoading(false);
         }catch (error){
-            console.error("Error fetching data:", error); // Tambahkan logging untuk melihat kesalahan
+            console.error("Error fetching data:", error); 
             setError(error);
             alert("There is an error");
         }finally{
