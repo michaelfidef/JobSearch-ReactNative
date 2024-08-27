@@ -5,8 +5,7 @@ import {
     ScrollView, 
     ActivityIndicator, 
     RefreshControl} from 'react-native'
-import { Stack, 
-    useGlobalSearchParams, 
+import { Stack,  
     useLocalSearchParams, 
     useRouter, 
     useSearch } from 'expo-router';
@@ -20,20 +19,21 @@ import { Company,
     JobTabs, 
     ScreenHeaderBtn } from '../../components';
 import { COLORS, icons, SIZES } from '../../constants';
-import useFetch from '../../hook/useFetch'; 
+import useFetch from '../../hook/useFetch';
 
 
 const JobDetails = () => {
-    const params = useGlobalSearchParams();
     const router = useRouter();
+    const params = useLocalSearchParams();
+    console.log("params :" , params.id);
 
-    console.log("params :" , params);ssss
+    const { data, isLoading, error, refetch } = useFetch(
+        'job-details', {job_id: params.id}
+      );
 
-    const {data, isLoading, error, refetch} = useFetch('job-details',  
-        {job_id: params.job_id, extended_publisher_details: 'false'});
-
-    const [refreshing, setRefreshing] = useState(false);
-    const onRefresh = () => {}
+      const [refreshing, setRefreshing] = useState(false);
+      const onRefresh = () => {}
+  
 
     return (
         <SafeAreaView style={{flex: 1, backgroundColor: COLORS.lightWhite }}>
@@ -46,7 +46,7 @@ const JobDetails = () => {
                     <ScreenHeaderBtn
                     iconUrl={icons.left}
                     dimension= "60%"
-                    handlerPress={() => router.back()}
+                    handlerPress={() => router.push('/')}
                     />
                 ),
                 headerRight: () => (
@@ -58,7 +58,9 @@ const JobDetails = () => {
             }}
             />
 
-            <>
+        <Text>Hello Activity!</Text>
+
+        <>
             <ScrollView showsVerticalScrollIndicator={false} 
             refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
@@ -70,13 +72,16 @@ const JobDetails = () => {
                 <Text>No Data!</Text>
             ): (
                 <View style={{padding: SIZES.medium, paddingBottom: 100}}>
-                    <Company/>
+                    <Company
+                    companyLogo={data[0].employer_logo}
+                    jobTitle={data[0].jobTitle}
+                    companyName={data[0].employer_name}
+                    location={data[0].job_city}
+                    />
                     <JobTabs/>
                 </View>
             )}
             </ScrollView>
-
-            <JobFooter url={data[0]?.job_google_link ?? 'https://careers.google.com/jobs/results/'} />
             </>
         </SafeAreaView>
     )
